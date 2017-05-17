@@ -48,6 +48,18 @@ class BinBlob final{
         
         count_ = num * channels * height * width; 
     }
+
+    void Reshape(const int num, const int channels, const int height,
+        const int width){
+      shape_.clear();
+      shape_[0] = num;
+      shape_[1] = channels;
+      shape_[2] = height;
+      shape_[3] = width;
+
+      count_ = num * channels * height * width; 
+
+    }
     
     void copyRealValueFrom(const Dtype* data){
       //CHECK_NE(data, NULL);

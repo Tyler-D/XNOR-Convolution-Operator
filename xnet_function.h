@@ -267,15 +267,15 @@ inline int xnet_sconv(const uint64_t n, const vector<bitset<BIN_SIZE> >& a,
       - alpha. scale factor. 
 */
 template <typename Dtype>
-void binarizeWeights(BinBlob<Dtype>& weights, Dtype* alpha){
-  unsigned long count = weights.count();
-  const Dtype* rv_data = weights.rv_data(); 
-  //caculate alpha 
-  *alpha = xnet_cpu_asum<Dtype>(count, rv_data) / count;
-  //sign 
+void binarizeWeights(BinBlob<Dtype>& weights, vector<Dtype>& alpha){
   const vector<int>& shape = weights.shape(); 
   int filter_num = shape[0];
   int kernel_count = shape[1] * shape[2] * shape[3];
+  const Dtype* rv_data = weights.rv_data(); 
+  //caculate alpha 
+  for(int filter_idx = 0; filter_idx < filter_num; filter_idx++) 
+    alpha = xnet_cpu_asum<Dtype>(kernel_count, rv_data+filter_idx*kernel_count) / kernel_count;
+  //sign 
   int bin_block_size = ceil(float(kernel_count)/ BIN_SIZE);  
   vector<BinBlock>& bin_data = weights.mutable_bin_data(); 
   bin_data.resize(filter_num);
@@ -401,8 +401,8 @@ void xnorConvolution(BinBlob<Dtype>& input, BinBlob<Dtype>& weights, Dtype* outp
     const int dilation_w)
 {
   //init weights parameter
-  Dtype alpha; 
-  binarizeWeights(weights, &alpha);
+  vector<Dtype> alpha; 
+  binarizeWeights(weights, alpha);
   const vector<int>& weights_shape = weights.shape();
   const vector<BinBlock>& bin_weights = weights.bin_data();
   int filter_num = weights_shape[0];
@@ -446,7 +446,7 @@ void xnorConvolution(BinBlob<Dtype>& input, BinBlob<Dtype>& weights, Dtype* outp
 #endif  
     for(int filter_idx = 0; filter_idx < filter_num; filter_idx++){
       for(int field_idx = 0; field_idx < bin_image.size(); field_idx++){
-          *(output++) = alpha*static_cast<Dtype>(xnet_sconv(kernel_size, 
+          *(output++) = (alpha[filter_idx])*static_cast<Dtype>(xnet_sconv(kernel_size, 
                         bin_image[field_idx], bin_weights[filter_idx]));   
       }
     }
