@@ -271,10 +271,11 @@ void binarizeWeights(BinBlob<Dtype>& weights, vector<Dtype>& alpha){
   const vector<int>& shape = weights.shape(); 
   int filter_num = shape[0];
   int kernel_count = shape[1] * shape[2] * shape[3];
+  unsigned long count = filter_num * kernel_count;
   const Dtype* rv_data = weights.rv_data(); 
   //caculate alpha 
   for(int filter_idx = 0; filter_idx < filter_num; filter_idx++) 
-    alpha = xnet_cpu_asum<Dtype>(kernel_count, rv_data+filter_idx*kernel_count) / kernel_count;
+    alpha.push_back(xnet_cpu_asum<Dtype>(kernel_count, rv_data+filter_idx*kernel_count) / kernel_count);
   //sign 
   int bin_block_size = ceil(float(kernel_count)/ BIN_SIZE);  
   vector<BinBlock>& bin_data = weights.mutable_bin_data(); 

@@ -17,4 +17,4 @@ Test: input 64x128x128; kernel 1x3x3; stride 1; padding 0
 platform|speed/ms
 ------|-------
 caffe| 70|
-this version| 40
+this version| 43

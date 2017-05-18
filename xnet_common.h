@@ -10,7 +10,6 @@
 
 using std::vector;
 using std::bitset;
-using std::shared_ptr;
 //using namespace std;
 
 //@TODO(Raven) dynamic bitset map. Considering the kernel count and input count cannot

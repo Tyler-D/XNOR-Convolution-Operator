@@ -29,8 +29,9 @@ int main()
   BinBlob<float> weight_blob(n, c, h, w);
   weight_blob.copyRealValueFrom(data);
 
-  float alpha = 0.0f;
-  binarizeWeights(weight_blob, &alpha);
+  vector<float> alpha;
+  alpha.resize(n);
+  binarizeWeights(weight_blob, alpha);
   const vector<BinBlock>& bin_data = weight_blob.bin_data();
   for(int i = 0; i<bin_data.size(); i++){
     for(int j = 0; j < bin_data[i].size(); j++)
