@@ -5,7 +5,7 @@ The idea is from [XNOR-Net: ImageNet Classification Using Binary Convolutional N
 However, it seems like that we cannnot handle the padding convolution with only xnor and popcnt operation of binary codes.
 
 ## speed test
-comparing with caffe(make with openblas).
+comparing with caffe(make with openblas, -o2).
 
 Enviroment |
 ----------|
@@ -16,5 +16,5 @@ Test: input 64x128x128; kernel 1x3x3; stride 1; padding 0
 
 platform|speed/ms
 ------|-------
-caffe| 70|
+caffe| 20|
 this version| 43
