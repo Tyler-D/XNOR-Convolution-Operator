@@ -7,7 +7,7 @@
 #include<x86intrin.h>
 #include<immintrin.h>
 
-#ifdef DEBUG
+#ifdef DEBUG_XNOR
 #include<iostream>
 using namespace std;
 #endif
@@ -408,8 +408,8 @@ void xnorConvolution(BinBlob<Dtype>& input, BinBlob<Dtype>& weights, Dtype* outp
   const vector<BinBlock>& bin_weights = weights.bin_data();
   int filter_num = weights_shape[0];
   uint64_t kernel_size = static_cast<uint64_t>(weights_shape[1]*weights_shape[2]*weights_shape[3]);
-#if defined(DEBUG)
-  LOG(INFO)<<alpha; 
+#if defined(DEBUG_XNOR)
+  //LOG(INFO)<<alpha; 
   LOG(INFO)<<"Weights:";
   for(int i = 0; i<bin_weights.size(); i++){
     for(int j = 0; j < bin_weights[i].size(); j++)
@@ -437,7 +437,7 @@ void xnorConvolution(BinBlob<Dtype>& input, BinBlob<Dtype>& weights, Dtype* outp
     binarizeIm2col(image_input, channels, height, width, kernel_h, kernel_w, pad_h, pad_w,
         stride_h, stride_w, dilation_h, dilation_w); 
     const vector<BinBlock>& bin_image = image_input.bin_data();
-#if defined(DEBUG)
+#if defined(DEBUG_XNOR)
   LOG(INFO)<<"Input:";
   for(int i = 0; i<bin_image.size(); i++){
     for(int j = 0; j < bin_image[i].size(); j++)

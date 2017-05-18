@@ -57,6 +57,7 @@ class BinBlob final{
       shape_[3] = width;
 
       count_ = num * channels * height * width; 
+      bin_data_.clear();
 
     }
     

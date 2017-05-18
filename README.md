@@ -17,4 +17,6 @@ Test: input 64x128x128; kernel 1x3x3; stride 1; padding 0
 platform|speed/ms
 ------|-------
 caffe| 20|
-this version| 43
+raw test| 43
+caffe with this xnor-conv | 15
+(I merge the operator into caffe and it's faster than raw test, emmmmm.......)
