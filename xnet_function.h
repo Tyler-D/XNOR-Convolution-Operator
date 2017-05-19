@@ -292,7 +292,7 @@ void binarizeWeights(BinBlob<Dtype>& weights, vector<Dtype>& alpha){
         unsigned long weight_idx = filter_idx*kernel_count+ 
           bin_block_idx*BIN_SIZE+j;
         if ( weight_idx > count) break;
-        if(xnet_sign(rv_data[weight_idx]) == 1){  
+        if(rv_data[weight_idx]>0){  
             temp_bin.set(j,1);
         }
       } 
@@ -361,29 +361,37 @@ void binarizeIm2col(BinBlob<Dtype>& input, const int channels, const int height,
   for(int i = 0; i < bin_block_num; i++)
     bin_data[i].resize(bin_block_size);
   //caffe im2col
+  int position = 0;
   for(int channel = -1;++channel< channels;rv_data += channel_size){
     for(int kernel_row = 0; kernel_row < kernel_h; kernel_row++){
       for(int kernel_col = 0; kernel_col < kernel_w; kernel_col++){
+        //int position = channel*kernel_size + 
+                        //kernel_row * kernel_w + kernel_col;
+        int bin_block_id = position / BIN_SIZE; 
+        int bin_block_size_id = position % BIN_SIZE; 
+        position++;
         int input_row = -pad_h + kernel_row * dilation_h;
+        int output_offset = 0;
         for(int output_row = 0; output_row < output_h; output_row++){
           if(!is_a_ge_zero_and_a_lt_b(input_row, height)){
-
+              output_offset += output_w;
           }else{
             int input_col = -pad_w + kernel_col*dilation_w;
             for(int output_col = 0;output_col< output_w; output_col++){
               if (is_a_ge_zero_and_a_lt_b(input_col, width)){
-                if (xnet_sign(rv_data[input_row*width + input_col]) == 1){
+                if (rv_data[input_row*width + input_col]>0){
                 //Considering the 
-                  int position = channel*kernel_h*kernel_w + 
-                                 kernel_row * kernel_w + kernel_col;
-                  int bin_block_id = position / BIN_SIZE; 
-                  int bin_block_size_id = position % BIN_SIZE; 
-                  bin_data[output_row*output_w+output_col][bin_block_id].set(
+                  //int position = channel*kernel_h*kernel_w + 
+                                 //kernel_row * kernel_w + kernel_col;
+                  //int bin_block_id = position / BIN_SIZE; 
+                  //int bin_block_size_id = position % BIN_SIZE; 
+                  bin_data[output_offset][bin_block_id].set(
                       bin_block_size_id,1); 
                 }
               }else{
 
               }
+              output_offset++;
               input_col += stride_w;
             }
           }
