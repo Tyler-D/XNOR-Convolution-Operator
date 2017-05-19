@@ -19,4 +19,5 @@ platform|speed/ms
 caffe| 20|
 raw test| 43
 caffe with this xnor-conv | 15
+
 (I merge the operator into caffe and it's faster than raw test, emmmmm.......)
