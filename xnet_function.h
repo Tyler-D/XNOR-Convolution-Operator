@@ -289,9 +289,10 @@ void binarizeWeights(BinBlob<Dtype>& weights, vector<Dtype>& alpha){
       //influence the popcnt
       bitset<BIN_SIZE> temp_bin;
       for(int j = 0 ; j < BIN_SIZE; j++){
-        unsigned long weight_idx = filter_idx*kernel_count+ 
-          bin_block_idx*BIN_SIZE+j;
-        if ( weight_idx > count) break;
+//@TODO ATTENTION
+        unsigned long weight_offset = bin_block_idx*BIN_SIZE+j;
+        unsigned long weight_idx = filter_idx*kernel_count + weight_offset;
+        if ( weight_offset == kernel_count) break;
         if(rv_data[weight_idx]>0){  
             temp_bin.set(j,1);
         }

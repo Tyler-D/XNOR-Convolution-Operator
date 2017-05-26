@@ -51,6 +51,7 @@ class BinBlob final{
     void Reshape(const int num, const int channels, const int height,
         const int width){
       shape_.clear();
+      shape_.resize(4);
       shape_[0] = num;
       shape_[1] = channels;
       shape_[2] = height;

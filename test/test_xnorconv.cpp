@@ -31,10 +31,10 @@ int main()
 {
   //shape 
   int n = 1;
-  int c = 64;
-  int h = 128;
-  int w = 128;
-  int k = 3;
+  int c = 1;
+  int h = 4;
+  int w = 4;
+  int k = 2;
   int stride = 1;
   int pad = 0;
   int dilation = 1;
@@ -60,10 +60,10 @@ int main()
   unsigned long diff = 1000 * (end.tv_sec-start.tv_sec)+ (end.tv_usec-start.tv_usec)/1000 ;
   cout<<"xnor time: "<< diff<<"/ms"<<endl;
   
-  //for(int i = 0; i<output_h; i++){
-    //for(int j = 0; j< output_w; j++)
-      //cout<<output[i*output_w+j]<<" ";
-    //cout<<endl;
-  //}
+  for(int i = 0; i<output_h; i++){
+    for(int j = 0; j< output_w; j++)
+      cout<<output[i*output_w+j]<<" ";
+    cout<<endl;
+  }
 
 }
