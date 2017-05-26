@@ -97,6 +97,9 @@ class BinBlob final{
        vector<int> shape_;
        //every ck^2 block is stored as a vector<bitset<BIN_SIZE>>
        vector<BinBlock> bin_data_; 
+        
+       //for padding in input:
+       //vector<uint64_t> 
 
       
 };

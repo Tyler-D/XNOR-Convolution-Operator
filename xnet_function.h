@@ -358,9 +358,12 @@ void binarizeIm2col(BinBlob<Dtype>& input, const int channels, const int height,
   //initialize bin_data:
   int bin_block_size = ceil(float(channels * kernel_h * kernel_w)/ BIN_SIZE);
   int bin_block_num = output_h * output_w;
+  bin_data.clear();
   bin_data.resize(bin_block_num);
-  for(int i = 0; i < bin_block_num; i++)
+  for(int i = 0; i < bin_block_num; i++){
+    bin_data[i].clear();
     bin_data[i].resize(bin_block_size);
+  }
   //caffe im2col
   int position = 0;
   for(int channel = -1;++channel< channels;rv_data += channel_size){
